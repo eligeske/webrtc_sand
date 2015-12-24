@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+</head>
+
+<body>
+
+  <script>
+    var config = {
+      iceServers: [
+        { urls: ["stun:stun.l.google.com:19302"] }
+      ]
+    };
+
+    var pc = new webkitRTCPeerConnection(config);
+    //var pc2 = new webkitRTCPeerConnection(config);
+
+    var offer, answer;
+
+    console.log(pc);
+    pc.onicecandidate = function (e) {
+        console.log('onicecandidate',e);
+    };
+    // pc2.onicecandidate = function (e) {
+    //     console.log('onicecandidate2',e);
+    // };
+
+    pc.createOffer(onPcOfferCreated, onError);
+
+    function onError(err) {
+      console.log(err);
+    };
+
+    function onPcOfferCreated(description) {
+      offer = description;
+      pc.setLocalDescription(offer,onPcLocalDescriptionSet,onError);
+    };
+
+    function onPcLocalDescriptionSet() {
+      console.log('onPcLocalDescriptionSet',offer);
+      // pc2.setRemoteDescription(offer,onPc2LocalDescriptionSet, onError);
+    };
+
+    // function onPc2LocalDescriptionSet() {
+    //   pc2.createAnswer(onAnswerCreated,onError);
+    // };
+
+    // function onAnswerCreated(description) {
+    //   answer = description;
+    //   pc2.setLocalDescription(answer,onPc2LocalDescriptionSet,onError);
+    // };
+
+  </script>
+
+</body>
+
+</html>
